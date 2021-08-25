@@ -1,3 +1,8 @@
+const registerService = require("./service/register");
+const loginService = require("./service/login");
+const verifyService = require("./service/verify");
+const utils = require("./utils");
+
 const healthPath = "/health";
 const registerPath = "/register";
 const loginPath = "/login";
@@ -8,31 +13,22 @@ exports.handler = async event => {
   let response;
   switch (true) {
     case event.httpMethod === "GET" && event.path === healthPath:
-      response = buildResponse(200);
+      response = utils.buildResponse(200);
       break;
     case event.httpMethod === "POST" && event.path === registerPath:
-      response = buildResponse(200);
+      const registerBody = JSON.parse(event.body);
+      response = await registerService.register(registerBody);
       break;
     case event.httpMethod === "POST" && event.path === loginPath:
-      response = buildResponse(200);
+      const loginBody = JSON.parse(event.body);
+      response = await loginService.login(loginBody);
       break;
     case event.httpMethod === "GET" && event.path === verifyPath:
-      response = buildResponse(200);
+      response = utils.buildResponse(200);
       break;
     default:
-      response = buildResponse(404, "404 Not Found");
+      response = utils.buildResponse(404, "404 Not Found");
   }
 
   return response;
 };
-
-function buildResponse(statusCode, body) {
-  return {
-    statusCode,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(body)
-  };
-}
