@@ -24,7 +24,8 @@ exports.handler = async event => {
       response = await loginService.login(loginBody);
       break;
     case event.httpMethod === "GET" && event.path === verifyPath:
-      response = utils.buildResponse(200);
+      const verifyBody = JSON.parse(event.body);
+      response = await verifyService.verify(verifyBody);
       break;
     default:
       response = utils.buildResponse(404, "404 Not Found");

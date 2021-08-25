@@ -1,14 +1,6 @@
 const utils = require("../utils");
+const db = require("../db/db");
 const bcrypt = require("bcryptjs");
-const AWS = require("aws-sdk");
-AWS.config.update({
-  region: "us-east-1"
-});
-
-const TABLE_NAME = "test-users"; //name of table created at AWS
-const PRI_KEY = "username";
-
-const dynamodb = new AWS.Dynamod.DocumentClient();
 
 async function login(user) {
   const { username, password } = user;
@@ -19,9 +11,9 @@ async function login(user) {
     });
   }
 
-  const foundUser = await getUser(username);
+  const foundUser = await db.getUser(username);
 
-  if (!foundUser || !foundUser.username) {
+  if (!foundUser?.username) {
     return utils.buildResponse(403, { message: "user does not exists" });
   }
 
@@ -39,25 +31,6 @@ async function login(user) {
   return utils.buildResponse(200, { token, userInfo });
 
   //payload
-}
-
-async function getUser(username) {
-  const params = {
-    TableName: TABLE_NAME,
-    Key: {
-      [PRI_KEY]: username
-    }
-  };
-
-  return await dynamodb
-    .get(params)
-    .promise()
-    .then(
-      res => res.Item,
-      err => {
-        console.error("Error getting user", err);
-      }
-    );
 }
 
 module.exports.login = login;
