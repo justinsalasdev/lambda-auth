@@ -1,6 +1,6 @@
-const registerService = require("./service/register");
-const loginService = require("./service/login");
-const verifyService = require("./service/verify");
+const registerService = require("./services/register");
+const loginService = require("./services/login");
+const verifyService = require("./services/verify");
 const utils = require("./utils");
 
 const healthPath = "/health";
