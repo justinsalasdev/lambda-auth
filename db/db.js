@@ -1,6 +1,6 @@
 const AWS = require("aws-sdk");
 AWS.config.update({
-  region: "us-east-1"
+  region: "us-east-2"
 });
 
 const TABLE_NAME = "test-users"; //name of table created at AWS

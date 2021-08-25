@@ -16,7 +16,7 @@ function verify(requestBody) {
     return utils.buildResponse(401, verification);
   }
 
-  return util.buildResponse(200, {
+  return utils.buildResponse(200, {
     verified: true,
     message: "success",
     user,
