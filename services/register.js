@@ -34,4 +34,4 @@ async function register(userInfo) {
   return utils.buildResponse(200, { username });
 }
 
-modules.exports.register = register;
+module.exports.register = register;

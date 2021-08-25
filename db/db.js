@@ -6,7 +6,7 @@ AWS.config.update({
 const TABLE_NAME = "test-users"; //name of table created at AWS
 const PRI_KEY = "username";
 
-const dynamodb = new AWS.Dynamodb.DocumentClient();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getUser(username) {
   const params = {
